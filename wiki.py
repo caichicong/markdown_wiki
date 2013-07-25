@@ -5,19 +5,13 @@ import os
 import shutil
 from urllib import quote
 
-# windows
-# template_file_path = 'd:\\output\\template.html'
-# index_template_file_path = 'd:\\output\\index_template.html'
-# output_path = 'd:\\output\\'
-# input_path = 'd:\\markdown\\'
+## todo copy image file
 
-# linux
-template_file_path = '/home/cong/markdown_wiki/template.html'
-index_template_file_path = '/home/cong/markdown_wiki/index_template.html'
-output_path = '/home/cong/Desktop/output/'
-input_path = '/home/cong/Desktop/input/'
+template_file_path = 'd:\\note\\template.html'
+index_template_file_path = 'd:\\note\\index_template.html'
+output_path = 'd:\\note\\'
+input_path = u'd:\\我的坚果云\\markdown\\'
 
-# usage : generate_html('d:/markdown/a/a.md', 'd:/output/a.html', 'd:/output/template.html')
 
 def generate_html(markdown_file_path, html_file_path, template_file_path):
     template_file = codecs.open(template_file_path, mode="r", encoding="utf-8")
@@ -29,7 +23,7 @@ def generate_html(markdown_file_path, html_file_path, template_file_path):
 
     html = markdown.markdown(text, ['extra'])
     html_file = codecs.open(html_file_path, "w", encoding="utf-8", errors="xmlcharrefreplace")
-    content = template.replace('{body}', html)
+    content = template.replace('{body}', html).replace('{title}', markdown_file_path)
     html_file.write(content)
 
 # delete all dir in output directory
@@ -39,7 +33,9 @@ for path in paths:
     if os.path.isdir(file_path):
         shutil.rmtree(file_path, True)
 
-# create dir
+
+# create dir 
+## todo : fix list only directory
 categories = os.listdir(input_path)
 for c in categories:
     os.mkdir(os.path.join(output_path, c))
@@ -51,26 +47,24 @@ for c in categories:
     catepath = os.path.join(input_path, c)
     outpath = os.path.join(output_path, c)
     for f in os.listdir(catepath):
-        md_file_path = os.path.join(catepath, f)
-        html_file_path = os.path.join(outpath, f.replace('.md', '.html'))
-        generate_html(md_file_path, html_file_path, template_file_path)
-        wiki_dir[c].append(f.replace('.md', ''))
+        if f.endswith('.md'):
+            md_file_path = os.path.join(catepath, f)
+            html_file_path = os.path.join(outpath, f.replace('.md', '.html'))
+            print md_file_path, html_file_path
+            generate_html(md_file_path, html_file_path, template_file_path)
+            wiki_dir[c].append(f.replace('.md', ''))
 
 index_file_tpl = open(index_template_file_path).read()
-
-index_file = codecs.open(os.path.join(output_path, 'index.html'), "w", encoding="utf-8", errors="xmlcharrefreplace")
+index_file = open(os.path.join(output_path, 'index.html'), 'w')
 
 body = ''
 for c in wiki_dir:
     body += '<div>%s</div>\n' % c
     body += '<ul>\n'
     for title in wiki_dir[c]:
-        body += '<li><a href="%s">%s</a></li>\n' % (quote(c) + '/' + quote(title) + '.html', title)
+        body += '<li><a href="%s">%s</a></li>\n' % (quote(c.encode('utf-8')) + '/' + quote(title.encode('utf-8')) + '.html', title)
     body += '</ul>\n'
 
-index_file_content = index_file_tpl.replace('{body}', body)
-
-# windows 下使用gbk编码
-# index_file.write(index_file_content.decode('gbk'))
-index_file.write(index_file_content.decode('utf-8'))
+index_file_content = index_file_tpl.replace('{body}', body).replace('{title}', u'我的笔记')
+index_file.write(index_file_content.encode('utf-8'))
 
