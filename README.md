@@ -58,4 +58,3 @@ markdown_wiki
 
 1 生成tag page
 
-2 复制图片文件

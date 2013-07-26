@@ -53,6 +53,8 @@ for c in categories:
             print md_file_path, html_file_path
             generate_html(md_file_path, html_file_path, template_file_path)
             wiki_dir[c].append(f.replace('.md', ''))
+        elif f.endswith('.png') or f.endswith('.jpg')  or f.endswith('.gif'):
+		    shutil.copy(os.path.join(catepath, f), os.path.join(outpath, f))
 
 index_file_tpl = open(index_template_file_path).read()
 index_file = open(os.path.join(output_path, 'index.html'), 'w')
