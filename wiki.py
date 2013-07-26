@@ -59,7 +59,7 @@ for c in categories:
             wiki_dir[c].append(f.replace('.md', ''))
         # image file
         elif f.endswith('.png') or f.endswith('.jpg')  or f.endswith('.gif'):
-		    shutil.copy(os.path.join(catepath, f), os.path.join(out_catepath, f))
+            shutil.copy(os.path.join(catepath, f), os.path.join(out_catepath, f))
 
 # create index file
 
