@@ -40,7 +40,7 @@ markdown_wiki
 
 5. 笔记之间的链接靠超链接完成 
 
-6. 笔记的搜索考虑用coreseek解决，当然很懒的话，用grep命令解决  -_-#
+6. 笔记的搜索Linux下用grep命令, Windows下用百度硬盘搜索  -_-#
 
 ## 程序流程
 
