@@ -52,9 +52,3 @@ markdown_wiki
 
 4 生成目录
 
-5 生成tag page
-
-## TODO
-
-1 生成tag page
-
