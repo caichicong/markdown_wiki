@@ -22,7 +22,7 @@ def generate_html(markdown_file_path, html_file_path, template_file_path):
     text = markdown_file.read()
     markdown_file.close()
 
-    html = markdown.markdown(text, ['extra'])
+    html = markdown.markdown(text, ['extra', 'fenced_code', 'codehilite'])
     html_file = codecs.open(html_file_path, "w", encoding="utf-8", errors="xmlcharrefreplace")
     content = template.replace('{body}', html).replace('{title}', markdown_file_path)
     html_file.write(content)
