@@ -3,17 +3,36 @@ import markdown
 import codecs
 import os
 import shutil
+import time
+import stat
+import sys
 from urllib import quote
 
-## todo copy image file
+template_file_path = '/home/cong/note/template.html'
+index_template_file_path = '/home/cong/note/index_template.html'
+output_path = '/home/cong/note/'
+input_path = '/home/cong/Nutstore/markdown/'
+now_timestamp = int(time.time())
 
-template_file_path = '/home/cong/Desktop/note/template.html'
-index_template_file_path = '/home/cong/Desktop/note/index_template.html'
-output_path = '/home/cong/Desktop/note/'
-input_path = '/home/cong/Desktop/markdown/'
+update_all = True
 
+if len(sys.argv) == 2 and sys.argv[1] == 'all':
+    update_all = True
+else:
+    update_all = False
 
 def generate_html(markdown_file_path, html_file_path, template_file_path):
+    global now_timestamp
+    if not update_all:
+        fsstat = os.stat(markdown_file_path)
+        # 修改时间大于6小时的不更新
+        if now_timestamp - fsstat[stat.ST_MTIME] > 21600:
+            return
+        else:
+            print markdown_file_path
+    else:
+        print markdown_file_path
+
     template_file = codecs.open(template_file_path, mode="r", encoding="utf-8")
     template = template_file.read()
     template_file.close()
@@ -56,7 +75,6 @@ for c in categories:
         if f.endswith('.md'):
             md_file_path = os.path.join(catepath, f)
             html_file_path = os.path.join(out_catepath, f.replace('.md', '.html'))
-            print md_file_path, html_file_path
             generate_html(md_file_path, html_file_path, template_file_path)
             wiki_dir[c].append(f.replace('.md', ''))
         # image file
