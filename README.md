@@ -42,6 +42,12 @@ markdown_wiki
 
 6. linux版支持部分更新
 
+7. 支持代码语法高亮， 依赖函数库[pygments](http://pygments.org/)
+
+    ~~~.php
+    <?php echo 'test';?>
+    ~~~
+
 ## 程序流程
 
 1 遍历指定目录下的所有文件夹，在生成目录里建立相同的文件夹

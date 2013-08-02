@@ -30,7 +30,7 @@ def generate_html(markdown_file_path, html_file_path, template_file_path):
     text = markdown_file.read()
     markdown_file.close()
 
-    html = markdown.markdown(text, ['extra'])
+    html = markdown.markdown(text, ['extra', 'fenced_code', 'codehilite'])
     html_file = codecs.open(html_file_path, "w", encoding="utf-8", errors="xmlcharrefreplace")
 
     # for linux
@@ -79,8 +79,8 @@ for c in categories:
         if f.endswith('.md'):
             md_file_path = os.path.join(catepath, f)
             html_file_path = os.path.join(out_catepath, f.replace('.md', '.html'))
-            generate_html(md_file_path, html_file_path, template_file_path)
             print md_file_path
+            generate_html(md_file_path, html_file_path, template_file_path)
             wiki_dir[c].append(f.replace('.md', ''))
         # image file
         elif f.endswith('.png') or f.endswith('.jpg')  or f.endswith('.gif'):
