@@ -22,17 +22,6 @@ else:
     update_all = False
 
 def generate_html(markdown_file_path, html_file_path, template_file_path):
-    global now_timestamp
-    if not update_all:
-        fsstat = os.stat(markdown_file_path)
-        # 修改时间大于6小时的不更新
-        if now_timestamp - fsstat[stat.ST_MTIME] > 21600:
-            return
-        else:
-            print markdown_file_path
-    else:
-        print markdown_file_path
-
     template_file = codecs.open(template_file_path, mode="r", encoding="utf-8")
     template = template_file.read()
     template_file.close()
@@ -48,6 +37,21 @@ def generate_html(markdown_file_path, html_file_path, template_file_path):
     content = template.replace('{body}', html).replace('{title}', markdown_file_path.decode('utf-8'))
     html_file.write(content)
     html_file.close()
+
+
+
+if not update_all:
+    for root, dirs, files in os.walk(input_path):    
+        for f in files:
+            if f.endswith('.md'):
+                mdfile = os.path.join(root, f)
+                fsstat = os.stat(mdfile)
+                if now_timestamp - fsstat[stat.ST_MTIME] < 21600:
+                    print mdfile
+                    generate_html(mdfile, mdfile.replace(input_path, output_path), template_file_path)
+    exit()
+
+
 
 # delete all dir in output directory
 paths = os.listdir(output_path) 
@@ -76,6 +80,7 @@ for c in categories:
             md_file_path = os.path.join(catepath, f)
             html_file_path = os.path.join(out_catepath, f.replace('.md', '.html'))
             generate_html(md_file_path, html_file_path, template_file_path)
+            print md_file_path
             wiki_dir[c].append(f.replace('.md', ''))
         # image file
         elif f.endswith('.png') or f.endswith('.jpg')  or f.endswith('.gif'):
