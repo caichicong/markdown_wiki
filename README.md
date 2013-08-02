@@ -44,9 +44,11 @@ markdown_wiki
 
 7. 支持代码语法高亮， 依赖函数库[pygments](http://pygments.org/)
 
->    ~~~.php
->    <?php echo 'test';?>
->    ~~~
+    \~\~\~.php
+
+    <?php echo 'test';?>
+
+    \~\~\~
 
 ## 程序流程
 
