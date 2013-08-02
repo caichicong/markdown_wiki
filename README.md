@@ -42,7 +42,7 @@ markdown_wiki
 
 6. linux版支持部分更新
 
-7. 支持代码语法高亮， 依赖函数库[pygments](http://pygments.org/)
+7. 支持代码语法高亮， 依赖函数库[pygments](http://pygments.org/), 例子如下
 
     \~\~\~.php
 
