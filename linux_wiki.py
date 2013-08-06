@@ -34,7 +34,7 @@ def generate_html(markdown_file_path, html_file_path, template_file_path):
     html_file = codecs.open(html_file_path, "w", encoding="utf-8", errors="xmlcharrefreplace")
 
     # for linux
-    content = template.replace('{body}', html).replace('{title}', markdown_file_path.decode('utf-8'))
+    content = template.replace('{body}', html).replace('{title}', markdown_file_path.decode('utf-8').split('.')[0].split('/')[-1])
     html_file.write(content)
     html_file.close()
 
@@ -97,7 +97,7 @@ for c in wiki_dir:
     body += '<ul>\n'
     for title in wiki_dir[c]:
         # for linux
-        body += '<li><a href="%s">%s</a></li>\n' % (quote(c) + '/' + quote(title) + '.html', title)
+        body += '<li><a href="%s">%s</a> <span class="edit_button"><img src="edit.png"></span> </li>\n' % (quote(c) + '/' + quote(title) + '.html', title)
     body += '</ul>\n'
 
 # for linux
